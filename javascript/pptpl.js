@@ -90,5 +90,5 @@
         return _render.call(this, pptpl.options.data);
     }
 
-    _global.pptpl = pptpl;
+    typeof(module) !== 'undefined' && module.exports ? module.exports = pptpl : _global.pptpl = pptpl;
 })(window)
