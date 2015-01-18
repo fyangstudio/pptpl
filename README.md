@@ -1,11 +1,41 @@
 # pptpl
 轻量级的前端模板工具库
 
-  兼容：IE6+；
-  支持：list, if, else, else if, 插值, 以及对变量加工的所有原生js方法；
-
   前端代码的高维护性，高阅读性和高拓展性的要求，view层的模板化需求越来越高，但大部分框架体积较重，伴随着
-移动端的发展，轻量化高效的代码是前端工程追求的目标，就像jquery所说，write less do more。使用pptpl你可以这样写
+移动端的发展，轻量化高效的代码是前端工程追求的目标，就像jquery所说，write less do more。
+# 使用说明
+  兼容：IE6+；<br />
+  支持：list, if, else, else if, 插值, 以及对变量加工的所有原生js方法；<br />
+  方法: 
+  ```
+  data：{ex1 : 'pptpl', ex2 : ['pptpl', 'pptpl']}
+  ```
+  1.插值符: 
+  ```
+  {{ex1}}
+  ```
+  2.条件判断: 
+  ```
+  {{#if ex1 == 'pptpl'}} 
+    //TO DO 
+  {{#elseif ex1 == 'pp'}}
+    //TO DO
+  {{#else}}
+    //TO DO
+  {{/if}}
+  ```
+  3.循环调用: (内置属性_index)
+  ```
+  {{#list ex2 as e}}
+    {{e._index + 1}}.{{e}}
+  {{/list}}
+  ```
+  4.调用: (返回渲染好的html模板)
+  ```
+  pptpl(tpl, data)
+  ```
+# 使用示例
+使用pptpl你可以这样写
 html：
 ```
 <!DOCTYPE HTML>
