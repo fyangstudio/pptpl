@@ -20,7 +20,7 @@
                 {{#else}}
                     <p>普通用户</p>
                 {{/if}}
-                <h3>阅读历史：</h3>
+                <h3>阅读历史：{{books.length}}</h3>
                 {{!遍历阅读历史!}}
                 {{#list books as book}}
                     {{#if book.read}}
@@ -28,8 +28,17 @@
                     {{#else}}
                         {{book.name}}：未读
                     {{/if}}
+                    {{#if !!book.note}}
+                        {{#list book.note as n}}
+                            {{#if n._index < 2}}
+                                {{n}}
+                            {{#else}}
+                                更多 >>
+                            {{/if}}
+                        {{/list}}
+                    {{/if}}
                 {{/list}}
-                <h3>购买信息：</h3>
+                <h3>购买信息：{{orders.length}}</h3>
                 <table border="1">
                     {{!遍历订单信息!}}
                     {{#list orders as order}}
@@ -52,8 +61,8 @@
                     area: 'Hangzhou'
                 },
                 books: [
-                    {name: 'JavaScript高级程序设计', read: true},
-                    {name: 'Node.js实战', read: true},
+                    {name: 'JavaScript高级程序设计', read: true , note:[' 笔记 ', ' 笔记笔记 ', ' 笔记笔记笔记 ']},
+                    {name: 'Node.js实战', read: true, note:[' 笔记 ', ' 笔记笔记 ']},
                     {name: 'Java程序设计', read: false}
                 ],
                 orders: [

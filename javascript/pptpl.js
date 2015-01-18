@@ -1,7 +1,16 @@
+/**
+ *前端模板库 pptpl：
+ * 兼容性：IE6+
+ * version: 0.1.1
+ *@author：ppfyang(hzyang_fan@corp.netease.com)
+ */
+
 (function (_global) {
 
+    // “全局变量”统计
     var _variables = [];
 
+    // 方法匹配
     var _settings = {
         listStart: /{{#list\s*([^}]*?)\s*as\s*(\w*?)\s*(,\s*\w*?)?}}/igm,
         listEnd: /{{\/list}}/igm,
@@ -19,7 +28,6 @@
         for (var i = 0, l = _tplArr.length; i < l; i++) {
             _tplArr[i] = _tplArr[i].replace(/(^\s*)|(\s*$)/g, '');
         }
-
         _tpl = (_tplArr.join('') || _tpl).replace(/&lt;/igm, '<').replace(/&gt;/igm, '>').replace(/&amp;/igm, '&').replace(/"/igm, "'");
 
         pptpl.options = {
@@ -28,14 +36,18 @@
         };
 
         _variables = [];
-
         return pptpl.template.call(pptpl);
     }
 
     pptpl.template = function () {
 
+        // 模板变量声明叠加
         var prefix = '';
+
+        // 循环调用统计
         var _counter = 0;
+
+        // 模板编译 主结构
         var _convert = '"use strict"; var _out = "";try { <%innerFunction%>";return _out;} catch(e) {throw new Error("pptpl: "+e.message);}';
 
         var _tpl = this.options.tpl
@@ -45,12 +57,18 @@
 
             // list expression
             .replace(_settings.listStart, function ($, _target, _object) {
-                _variables.push(_target);
                 var _var = _object || 'value';
                 var _key = 'key' + _counter++;
-                return '";~function() { for(var ' + _key + ' in ' + _target + ') {' +
+                if (!_target.match(/\./g))_variables.push(_target);
+                if (_target.match(/(\w+?)\[/g)) _variables.push(_target.match(/(\w+?)\[/g)[0].replace('[', ''));
+                return '";~function() { ' +
+                    'var i' + _counter + ' = 0;' +
+                    'for(var ' + _key + ' in ' + _target + ') {' +
                     'if(' + _target + '.hasOwnProperty(' + _key + ')) {' +
-                    'var ' + _var + '=' + _target + '[' + _key + ']; _out += "'
+                    'var _i = i' + _counter + '++;' +
+                    'var _v = ' + _target + '[' + _key + ']; ' +
+                    'var ' + _var + ' = typeof( _v ) === "object" ? _v : [_v];' + _var + '._index = _i' +
+                    '; _out += "'
             })
             .replace(_settings.listEnd, '";}}}(); _out += "')
 
