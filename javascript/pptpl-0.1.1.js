@@ -1,11 +1,11 @@
 /**
  *前端模板库 pptpl：
  * 兼容性：IE6+
- * version: 0.1.1
+ * version: 0.1.2
  *@author：ppfyang(hzyang_fan@corp.netease.com)
  */
 
-(function (_global) {
+(function () {
 
     // “全局变量”统计
     var _variables = [];
@@ -108,5 +108,5 @@
         return _render.call(this, pptpl.options.data);
     }
 
-    typeof(module) !== 'undefined' && module.exports ? module.exports = pptpl : _global.pptpl = pptpl;
-})(window)
+    typeof(module) !== 'undefined' && module.exports ? module.exports = pptpl : window.pptpl = pptpl;
+})()
